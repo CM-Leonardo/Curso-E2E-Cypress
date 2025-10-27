@@ -1,4 +1,4 @@
-Cypress.Commands.add('fillSignupFormAndSubmit', data => {
+export function fillSignupFormAndSubmit(data){
     cy.visit('/signup')
 
     cy.get('#email').type(data.email)
@@ -13,4 +13,4 @@ Cypress.Commands.add('fillSignupFormAndSubmit', data => {
         const confirmationCode = message.html.body.match(/\d{6}/)[0]
         cy.get('#confirmationCode').type(`${confirmationCode}{enter}`)
     })
-})
+}
