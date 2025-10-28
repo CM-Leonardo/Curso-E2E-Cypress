@@ -1,9 +1,18 @@
-describe('Creat, read, upadate and delete', () => {
-    it('Successfully create, read, update and delete a note.', () => {
+import { faker } from '@faker-js/faker/locale/en'
 
-        cy.intercept('GET', '**/notes').as('getNotes')
-        cy.intercept('GET', '**/notes/**').as('getNote')
-        cy.loginSession()
-        cy.visit('/notes/new')
-    })
+describe('Creat, read, upadate and delete', () => {
+  const note = {
+    description: faker.lorem.words(5),
+    updateDescription: faker.lorem.words(5)
+  }
+
+  it('Successfully create, read, update and delete a note.', () => {
+    cy.loginSession()
+    cy.visit('/notes/new')
+
+    cy.creatNote(note)
+    cy.readNote(note)
+    cy.updateNote(note)
+    cy.deleteNote(note)
+  })
 })
