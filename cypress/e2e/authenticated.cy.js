@@ -32,9 +32,6 @@ describe('Scenarios where authentication is a pre-condition', () => {
   })
 
   it('Successfully logs out', () => {
-    //para exucutar o teste com um viewPort diferente, rode => 
-    // npx cypress open --config "viewportWidth=767,viewportHeight=480"
-
     cy.visit('/')
     cy.wait('@getNotes')
     cy.logout()
