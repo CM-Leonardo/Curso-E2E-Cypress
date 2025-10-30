@@ -37,41 +37,69 @@ Cypress.Commands.add('loginSession', (
 })
 
 Cypress.Commands.add('creatNote', (note) => {
-  cy.get('#content')
-    .as('contentField')
-    .type(note.description)
+  cy.visit('/notes/new')
+
+  //preenche o campo de teste e clica em criar
+  cy.get('#content').type(note.description)
   cy.contains('button', 'Create').click()
 
-  cy.contains('.list-group-item', note.description)
-    .should('be.visible')
-})
-
-Cypress.Commands.add('readNote', (note) => {
-  cy.contains('.list-group-item', note.description).click()
-  cy.get('@contentField').should('contain.text', note.description)
+  //valida criação 
+  cy.contains('.list-group-item', note.description).should('be.visible')
 })
 
 Cypress.Commands.add('updateNote', (note) => {
-  cy.get('@contentField')
+  cy.intercept('GET', '**/notes/**').as('getNote')
+
+  //busca e clica na nota criada
+  cy.contains('.list-group-item', note.description).click()
+  cy.wait('@getNote')
+
+  //limpa o campo, escreve uma nova nota, anexa o arquivo e salva
+  cy.get('#content')
     .clear()
     .type(note.updateDescription)
   cy.get('#file').selectFile('cypress/fixtures/example.json')
   cy.contains('button', 'Save').click()
 
-  cy.contains('.list-group-item', note.description).should('not.exist')
+  //valida a alteração da nota
   cy.contains('.list-group-item', note.updateDescription).should('be.visible')
-    .click()
+  cy.contains('.list-group-item', note.description).should('not.exist')
 })
 
 Cypress.Commands.add('deleteNote', (note) => {
+  //acessa a nota alterada
+  cy.contains('.list-group-item', note.updateDescription).click()
+
+  //busca e clica o botão deletar
   cy.contains('button', 'Delete')
     .should('be.visible')
     .click()
 
+  // valida a exclusão da nota
   cy.get('.list-group-item')
     .its('length')
     .should('be.at.least', 1)
   cy.contains('.list-group-item', note.updateDescription)
     .should('not.exist')
+})
+
+Cypress.Commands.add('fillSettingsFormAndSubmit', () => {
+  cy.visit('/settings')
+  cy.get('#storage').type('1')
+  cy.get('#name').type('Mary Doe')
+  cy.iframe('.card-field iframe')
+    .as('iframe')
+    .find('[name="cardnumber"]')
+    .type('4242424242424242')
+  cy.get('@iframe')
+    .find('[name="exp-date"]')
+    .type('1271')
+  cy.get('@iframe')
+    .find('[name="cvc"]')
+    .type('123')
+  cy.get('@iframe')
+    .find('[name="postal"]')
+    .type('12345')
+  cy.contains('button', 'Purchase').click()
 })
 
