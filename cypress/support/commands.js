@@ -36,6 +36,17 @@ Cypress.Commands.add('loginSession', (
   cy.session(username, login)
 })
 
+Cypress.Commands.add('logout', () => {
+  if (Cypress.config('viewportWidth') < Cypress.env('viewportWidthBreakpoint')) {
+    cy.get('.navbar-toggle.collapsed')
+      .should('be.visible')
+      .click()
+  }
+  cy.contains('.nav a', 'Logout').click()
+  cy.get('#email').should('be.visible')
+  cy.url().should('include', '/login')
+})
+
 Cypress.Commands.add('creatNote', (note) => {
   cy.visit('/notes/new')
 
@@ -43,7 +54,7 @@ Cypress.Commands.add('creatNote', (note) => {
   cy.get('#content').type(note.description)
   cy.contains('button', 'Create').click()
 
-  //valida criação 
+  //valida criação
   cy.contains('.list-group-item', note.description).should('be.visible')
 })
 
