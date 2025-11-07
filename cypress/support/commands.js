@@ -47,7 +47,7 @@ Cypress.Commands.add('logout', () => {
   cy.url().should('include', '/login')
 })
 
-Cypress.Commands.add('creatNote', (note) => {
+Cypress.Commands.add('createNote', (note) => {
   cy.visit('/notes/new')
 
   //preenche o campo de teste e clica em criar
@@ -58,7 +58,7 @@ Cypress.Commands.add('creatNote', (note) => {
   cy.contains('.list-group-item', note.description).should('be.visible')
 })
 
-Cypress.Commands.add('updateNote', (note) => {
+Cypress.Commands.add('editNote', (note) => {
   cy.intercept('GET', '**/notes/**').as('getNote')
 
   //busca e clica na nota criada

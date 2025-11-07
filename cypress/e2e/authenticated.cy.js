@@ -1,3 +1,4 @@
+/// <reference path="../support/commands.d.ts" />
 import { faker } from '@faker-js/faker/locale/en'
 
 describe('Scenarios where authentication is a pre-condition', () => {
@@ -12,10 +13,10 @@ describe('Scenarios where authentication is a pre-condition', () => {
       updateDescription: faker.lorem.words(5)
     }
 
-    cy.creatNote(note)
+    cy.createNote(note)
     cy.wait('@getNotes')
 
-    cy.updateNote(note)
+    cy.editNote(note)
     cy.wait('@getNotes')
 
     cy.deleteNote(note)
