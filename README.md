@@ -42,4 +42,4 @@ Run `npm run cy:open:tablet` to open the __Cypress App__ to run tests in interac
 
 ___
 
-Made with ❤️ by [your-name-here](https://your-web-site-or-github-profile-here).
+Made with ❤️ by [Leonardo-Coneglian-Mirada](https://www.linkedin.com/in/leonardo-coneglian-5a2206241?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app).
